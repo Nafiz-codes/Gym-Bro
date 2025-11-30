@@ -18,6 +18,13 @@ def calculate_bmr(gender, weight, height_cm, age):
     else:
         return 10 * weight + 6.25 * height_cm - 5 * age - 161
 
+def bmr_feedback(bmr):
+    if bmr < 1500:
+        return "Your metabolism is a bit slower than average. Focus on lean protein and regular activity."
+    elif 1500 <= bmr <= 1800:
+        return "Your metabolism is average. Stick to your macros for balanced results."
+    else:
+        return "Your metabolism is quite fast. You may need slightly higher calories to maintain energy."
 
 def get_activity_multiplier(level):
     levels = {
@@ -96,9 +103,10 @@ if st.button("Calculate"):
 
     st.write(f"**BMR:** {bmr:.2f}")
     st.write(f"**TDEE (Maintenance):** {tdee:.2f}")
-    st.write(f"**Deficit:** {deficit:.2f}")
-    st.write(f"**Surplus:** {surplus:.2f}")
+    st.write(f"**Caloric Deficit:** {deficit:.2f}")
+    st.write(f"**Caloric Surplus:** {surplus:.2f}")
 
+    # Macros
     cut_p, cut_c, cut_f = calculate_macros(deficit, weight, "Cut")
     bulk_p, bulk_c, bulk_f = calculate_macros(surplus, weight, "Bulk")
 
@@ -106,6 +114,10 @@ if st.button("Calculate"):
     st.write(f"**Cutting:** {cut_p}g P / {cut_c}g C / {cut_f}g F")
     st.write(f"**Bulking:** {bulk_p}g P / {bulk_c}g C / {bulk_f}g F")
 
+    # ⭐ Feedback based on BMR
+    feedback = bmr_feedback(bmr)
+    st.subheader("💡 Personalized Feedback")
+    st.info(feedback)
 
 # =============================
 # FOOD IMAGE CALORIE ESTIMATOR
