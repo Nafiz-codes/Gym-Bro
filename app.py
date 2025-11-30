@@ -17,14 +17,43 @@ def calculate_bmr(gender, weight, height_cm, age):
         return 10 * weight + 6.25 * height_cm - 5 * age + 5
     else:
         return 10 * weight + 6.25 * height_cm - 5 * age - 161
+        
+def calculate_bmi(weight_kg, height_cm):
+    height_m = height_cm / 100
+    bmi = weight_kg / (height_m ** 2)
+    return round(bmi, 1)
 
-def bmr_feedback(bmr):
-    if bmr < 1500:
-        return "Your metabolism is a bit slower than average. Focus on lean protein and regular activity."
-    elif 1500 <= bmr <= 1800:
-        return "Your metabolism is average. Stick to your macros for balanced results."
+def health_feedback(weight, height_cm, bmr, tdee):
+    bmi = calculate_bmi(weight, height_cm)
+    
+    # BMI feedback
+    if bmi < 18.5:
+        bmi_feedback = "You are underweight. Focus on balanced nutrition and strength training."
+    elif 18.5 <= bmi <= 24.9:
+        bmi_feedback = "You have a normal weight. Maintain your diet and activity for good health."
+    elif 25 <= bmi <= 29.9:
+        bmi_feedback = "You are overweight. Consider a moderate calorie deficit and regular exercise."
     else:
-        return "Your metabolism is quite fast. You may need slightly higher calories to maintain energy."
+        bmi_feedback = "You are obese. Consult a healthcare professional and follow a safe weight-loss plan."
+
+    # BMR feedback
+    if bmr < 1500:
+        bmr_feedback = "Your metabolism is on the lower side; focus on nutrient-dense meals."
+    elif bmr <= 1900:
+        bmr_feedback = "Your metabolism is average."
+    else:
+        bmr_feedback = "Your metabolism is high; you may need more calories to maintain energy."
+
+    # TDEE advice
+    if tdee < 2000:
+        tdee_feedback = "Your daily calorie expenditure is relatively low; balance activity with nutrition."
+    elif tdee <= 2800:
+        tdee_feedback = "Your daily calorie expenditure is average."
+    else:
+        tdee_feedback = "Your daily calorie expenditure is high; ensure you eat enough to fuel your body."
+
+    return f"**BMI Feedback:** {bmi_feedback}\n**BMR Feedback:** {bmr_feedback}\n**TDEE Feedback:** {tdee_feedback}"
+
 
 def get_activity_multiplier(level):
     levels = {
@@ -115,9 +144,9 @@ if st.button("Calculate"):
     st.write(f"**Bulking:** {bulk_p}g P / {bulk_c}g C / {bulk_f}g F")
 
     # ⭐ Feedback based on BMR
-    feedback = bmr_feedback(bmr)
-    st.subheader("💡 Personalized Feedback")
-    st.info(feedback)
+    feedback_text = health_feedback(weight, height_cm, bmr, tdee)
+    st.subheader("💡 Health Feedback")
+    st.info(feedback_text)
 
 # =============================
 # FOOD IMAGE CALORIE ESTIMATOR
