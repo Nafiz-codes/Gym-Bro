@@ -3,28 +3,7 @@ import requests
 from io import BytesIO
 # ---------------------------
 # HEIGHT CONVERSION
-# ---------------------------
-from api import identify_food
-from calorie_lookup import get_calories
-import streamlit as st
-
-st.title("Gym Bro - Food Calorie Tracker")
-
-uploaded_file = st.file_uploader("Upload a food image")
-
-if uploaded_file:
-    image_bytes = uploaded_file.read()
-    food, confidence = identify_food(image_bytes)
-
-    if not food:
-        st.error("No food detected or API failed.")
-    else:
-        st.write(f"Detected Food: {food} ({confidence*100:.1f}% confidence)")
-        calories = get_calories(food)
-        if calories == "Unknown":
-            st.warning("Calories for this food are not in the database.")
-        else:
-            st.success(f"Approximate Calories: {calories} kcal")
+# --------------------------
 
 
 def feet_inches_to_cm(feet, inches):
