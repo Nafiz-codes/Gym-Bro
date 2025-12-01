@@ -4,6 +4,24 @@ from io import BytesIO
 # ---------------------------
 # HEIGHT CONVERSION
 # ---------------------------
+from api import identify_food
+from calorie_lookup import get_calories
+
+uploaded_img = st.file_uploader("Upload your food image")
+
+if uploaded_img:
+    image_bytes = uploaded_img.getvalue()
+    food, confidence = identify_food(image_bytes)
+
+    st.write(f"Detected food: **{food}** ({confidence*100:.2f}% confidence)")
+
+    calories = get_calories(food)
+
+    if calories == "Unknown":
+        st.warning("Food detected, but calorie info not available in the database.")
+    else:
+        st.success(f"Approximate calories: **{calories} kcal**")
+
 def feet_inches_to_cm(feet, inches):
     return (feet * 12 + inches) * 2.54
 
