@@ -106,7 +106,7 @@ def estimate_food_calories(image_data):
 # ============================================
 # STREAMLIT UI
 # ============================================
-st.title("🍎 Fitness Web App — Macros + Calorie Estimator")
+st.title("💪Gym Bro — Macros + Calorie Estimator")
 
 st.subheader("1️⃣ Calculate Your TDEE & Macros")
 
@@ -151,7 +151,7 @@ if st.button("Calculate"):
 # =============================
 # FOOD IMAGE CALORIE ESTIMATOR
 # =============================
-st.subheader("2️⃣ Estimate Calories From Food Image (FREE API)")
+st.subheader("2️⃣ Estimate Calories From Image")
 
 uploaded_image = st.file_uploader("Upload a food image", type=["jpg", "jpeg", "png"])
 
