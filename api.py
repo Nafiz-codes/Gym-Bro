@@ -1,42 +1,62 @@
-import requests
-import base64
 import os
+import base64
+import requests
 
-CLARIFAI_API_KEY = os.getenv("333b0c1305504d25a06847c9d3b59e71")
+# Your Personal Access Token from Clarifai
+CLARIFAI_PAT = os.getenv("333b0c1305504d25a06847c9d3b59e71")  # Make sure to set this in Streamlit Cloud or .env
+
+# Clarifai shared model info
+USER_ID = "clarifai"
+APP_ID = "main"
+MODEL_ID = "food-item-recognition"
 
 def identify_food(image_bytes):
-    url = "https://api.clarifai.com/v2/models/food-item-recognition/outputs"
+    """
+    Takes raw image bytes, sends to Clarifai food-item-recognition model,
+    and returns the most probable food name and confidence.
+    """
+    if CLARIFAI_PAT is None:
+        print("Error: CLARIFAI_PAT not set.")
+        return None, None
+
+    url = f"https://api.clarifai.com/v2/users/{USER_ID}/apps/{APP_ID}/models/{MODEL_ID}/outputs"
 
     headers = {
-        "Authorization": f"Key {CLARIFAI_API_KEY}",
+        "Authorization": f"Key {CLARIFAI_PAT}",
         "Content-Type": "application/json"
     }
 
-    # ✅ Correct: convert bytes → base64 string
+    # Base64 encode the image bytes
     b64_image = base64.b64encode(image_bytes).decode('utf-8')
 
     payload = {
         "inputs": [
             {
                 "data": {
-                    "image": {
-                        "base64": b64_image
-                    }
+                    "image": {"base64": b64_image}
                 }
             }
         ]
     }
 
-    response = requests.post(url, json=payload, headers=headers)
-    data = response.json()
+    try:
+        response = requests.post(url, json=payload, headers=headers)
+        data = response.json()
+    except Exception as e:
+        print(f"Clarifai API request failed: {e}")
+        return None, None
 
-    # Grab highest-confidence food prediction
-    concepts = data["outputs"][0]["data"]["concepts"]
+    # Safe extraction of concepts
+    outputs = data.get("outputs", [])
+    if not outputs:
+        return None, None
+
+    concepts = outputs[0].get("data", {}).get("concepts", [])
     if not concepts:
         return None, None
 
-    food_name = concepts[0]["name"]
-    confidence = concepts[0]["value"]
+    # Return highest-confidence concept
+    food_name = concepts[0].get("name", None)
+    confidence = concepts[0].get("value", None)
 
     return food_name, confidence
-
