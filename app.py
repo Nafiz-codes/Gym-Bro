@@ -125,10 +125,11 @@ if st.button("Calculate"):
     height_cm = feet_inches_to_cm(feet, inches)
     bmr = calculate_bmr(gender, weight, height_cm, age)
     tdee = calculate_tdee(bmr, activity)
+    bmi = calculate_bmi(weight, height_cm)
 
     deficit = tdee - 400
     surplus = tdee + 300
-    
+    st.write(f"**BMI:** {bmi:.2f}")
     st.write(f"**BMR:** {bmr:.2f}")
     st.write(f"**TDEE (Maintenance):** {tdee:.2f}")
     st.write(f"**Caloric Deficit:** {deficit:.2f}")
