@@ -6,21 +6,26 @@ from io import BytesIO
 # ---------------------------
 from api import identify_food
 from calorie_lookup import get_calories
+import streamlit as st
 
-uploaded_img = st.file_uploader("Upload your food image")
+st.title("Gym Bro - Food Calorie Tracker")
 
-if uploaded_img:
-    image_bytes = uploaded_img.getvalue()
+uploaded_file = st.file_uploader("Upload a food image")
+
+if uploaded_file:
+    image_bytes = uploaded_file.read()
     food, confidence = identify_food(image_bytes)
 
-    st.write(f"Detected food: **{food}** ({confidence*100:.2f}% confidence)")
-
-    calories = get_calories(food)
-
-    if calories == "Unknown":
-        st.warning("Food detected, but calorie info not available in the database.")
+    if not food:
+        st.error("No food detected or API failed.")
     else:
-        st.success(f"Approximate calories: **{calories} kcal**")
+        st.write(f"Detected Food: {food} ({confidence*100:.1f}% confidence)")
+        calories = get_calories(food)
+        if calories == "Unknown":
+            st.warning("Calories for this food are not in the database.")
+        else:
+            st.success(f"Approximate Calories: {calories} kcal")
+
 
 def feet_inches_to_cm(feet, inches):
     return (feet * 12 + inches) * 2.54
