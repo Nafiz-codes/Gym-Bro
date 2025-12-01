@@ -1,7 +1,16 @@
 import streamlit as st
 import requests
 from io import BytesIO
+from clarifai.client import ClarifaiClient
 
+TOKEN = "333b0c1305504d25a06847c9d3b59e71"
+
+client = ClarifaiClient(api_key=TOKEN)
+
+response = client.predict_by_bytes(
+    model_id="food-item-recognition",
+    input_bytes=image_bytes
+)
 # ---------------------------
 # HEIGHT CONVERSION
 # ---------------------------
