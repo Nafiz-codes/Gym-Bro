@@ -128,7 +128,7 @@ if st.button("Calculate"):
 
     deficit = tdee - 400
     surplus = tdee + 300
-    st.write(f"**BMI:** {bmi:.2f}")
+    
     st.write(f"**BMR:** {bmr:.2f}")
     st.write(f"**TDEE (Maintenance):** {tdee:.2f}")
     st.write(f"**Caloric Deficit:** {deficit:.2f}")
