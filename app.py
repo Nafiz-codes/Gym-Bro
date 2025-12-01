@@ -87,11 +87,9 @@ def calculate_macros(calories, weight, goal):
     return round(protein), round(carbs), round(fat)
 
 
-# ---------------------------
-# FOOD IMAGE CALORIE API (FREE)
-# ---------------------------
+
 HF_API_URL = "https://api-inference.huggingface.co/models/nutrify/food-nutrition-estimator"
-HF_TOKEN = "YOUR_HF_API_TOKEN"  # <-- replace this
+HF_TOKEN = "YOUR_HF_API_TOKEN" 
 
 
 def estimate_food_calories(image_data):
@@ -130,7 +128,7 @@ if st.button("Calculate"):
 
     deficit = tdee - 400
     surplus = tdee + 300
-
+    st.write(f"**BMI:** {bmi:.2f}")
     st.write(f"**BMR:** {bmr:.2f}")
     st.write(f"**TDEE (Maintenance):** {tdee:.2f}")
     st.write(f"**Caloric Deficit:** {deficit:.2f}")
