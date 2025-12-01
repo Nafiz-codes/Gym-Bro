@@ -8,7 +8,7 @@ def identify_food(image_bytes):
     url = "https://api.clarifai.com/v2/models/food-item-recognition/outputs"
 
     headers = {
-        "Authorization": f"Key {CLARIFAI_API_KEY}",
+        "Authorization": f"Key {333b0c1305504d25a06847c9d3b59e71}",
         "Content-Type": "application/json"
     }
 
