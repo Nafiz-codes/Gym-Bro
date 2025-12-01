@@ -19,7 +19,7 @@ def identify_food(image_bytes):
         print("Error: CLARIFAI_PAT not set.")
         return None, None
 
-    url = f"https://api.clarifai.com/v2/users/{USER_ID}/apps/{APP_ID}/models/{MODEL_ID}/outputs"
+    url = f"https://api.clarifai.com/v2/users/clarifai/apps/main/models/food-item-recognition/outputs"
 
     headers = {
         "Authorization": f"Key {CLARIFAI_PAT}",
