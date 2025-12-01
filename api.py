@@ -1,7 +1,7 @@
 import requests
 import os
 
-CLARIFAI_API_KEY = os.getenv("CLARIFAI_API_KEY")
+CLARIFAI_API_KEY = os.getenv("333b0c1305504d25a06847c9d3b59e71")
 
 def identify_food(image_bytes):
     url = "https://api.clarifai.com/v2/models/food-image-recognition/outputs"
